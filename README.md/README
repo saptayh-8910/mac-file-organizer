@@ -1,0 +1,12 @@
+# Mac File Organizer Web App
+A full-stack Python application that automatically sorts messy Downloads folders into categorized sub-folders (Images, Documents, Music, etc.).
+
+## 🚀 Features
+- **One-Click Organization**: Instantly sort your Mac's Downloads folder.
+- **Visual Feedback**: View a detailed list of every file moved on a success page.
+- **Web Interface**: Built with Flask for a clean, user-friendly experience.
+
+## 🛠️ Tech Stack
+- **Backend**: Python (Flask)
+- **Frontend**: HTML5, CSS3
+- **Automation**: Shutil and Pathlib libraries
