@@ -9,20 +9,43 @@
         .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; }
         button { background: #007aff; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 20px; cursor: pointer; transition: 0.2s; }
         button:hover { background: #005bb5; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+            
+        }
+        .stat-box {
+            animation: pulse 2s infinite ease-in-out;
+            transition: all 0.3s ease;
+        }
+        .stat-box:hover {
+            background: rgba(0, 122, 255, 0.2) !important;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>Mac Downloads Organizer</h1>
         <p>Click the button below to sort your Downloads folder into categories.</p>
+
+        {% if message %}
+        <p style="color: #ff3b30; font-weight: bold;">{{ message }}</p>
+        {% endif %}
+
         <form action="/organize" method="post">
             <button type="submit">Organize My Files</button>
         </form>
 
-        <div style="margin-top: 30px; padding: 20px; background: rgba(0, 122, 255, 0.1); border-radius: 10px;">
+        <div class="stat-box" style="margin-top: 30px; padding: 20px; 
+                    background: {% if total_count > 10 %} rgba(52,199,89, 0.15) {% else %} rgba(0, 122, 255, 0.1) {% endif %};
+                    border-radius: 15px; 
+                    border: 1px solid {% if total_count > 10 %} #34c759 {% else %} #007aff {% endif %}">
             <h3 style="margin-top: 0; color: #007aff;">📊 Lifetime Impact</h3>
             <p style="font-size: 1.1em; color: #333;">
-                This tool has helped you organize <strong>{{ total_count }}</strong> files so far!
+                This tool has helped you organize <span style="color:#007aff; font-weight: bold; font-size: 1.4em;">{{ total_count }}</span> files so far!
             </p>
         </div>
     

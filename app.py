@@ -54,7 +54,17 @@ def index():
 @app.route('/organize', methods=['POST'])
 def organize():
     files_list = organize_downloads()
-    # We pass the list to a new success page
+    
+    if not files_list:
+        # We must re-calculate the total_count so the counter doesn't disappear!
+        try:
+            with open("organizer_log.txt", "r") as log:
+                total = len(log.readlines())
+        except FileNotFoundError:
+            total = 0
+            
+        return render_template('index.html', total_count=total, message="Your folder is already tidy!")
+    
     return render_template('success.html', files=files_list)
 
 if __name__ == "__main__":
