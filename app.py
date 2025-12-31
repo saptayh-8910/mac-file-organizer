@@ -41,32 +41,26 @@ def organize_folder(target_folder_name):
                 
     return moved_files
 
-@app.route('/')
-def index():
-    # We open our log file and count how many lines (files) are in it
+def get_total_count():
+    """Helper function to read the lifetime log count"""
     try:
         with open("organizer_log.txt", "r") as log:
-            # Each line in the log represents one file organized
-            total = len(log.readlines())
+            return len(log.readlines())
     except FileNotFoundError:
-        # If the file doesn't exist yet (first time running), set total to 0
-        total = 0
-        
-    # We send that 'total' number to index.html as 'total_count'
-    return render_template('index.html', total_count=total)
+        return 0
+
+@app.route('/')
+def index():
+    return render_template('index.html', total_count=get_total_count())
 
 @app.route('/organize', methods=['POST'])
 def organize():
-    # 1. Get the folder choice from the HTML radio buttons
     chosen_folder = request.form.get('folder_choice', 'Downloads')
-    
-    # 2. Run the organization on THAT specific folder
     files_list = organize_folder(chosen_folder)
     
     if not files_list:
-        # Re-calculate total for the counter
-        total = get_total_count() # You can make a small helper function for this
-        return render_template('index.html', total_count=total, message=f"Your {chosen_folder} is already tidy!")
+        # Now we use our new helper here!
+        return render_template('index.html', total_count=get_total_count(), message=f"Your {chosen_folder} is already tidy!")
     
     return render_template('success.html', files=files_list)
 
