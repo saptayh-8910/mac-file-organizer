@@ -15,21 +15,25 @@ FILE_TYPES = {
     "Movies": [".mp4", ".avi", ".mov"]
 }
 
-def organize_downloads():
-    downloads_path = Path.home() / "Downloads"
+def organize_folder(target_folder_name):
+    # This now dynamically picks the folder you choose!
+    folder_path = Path.home() / target_folder_name
     moved_files = []
     
-    for file in downloads_path.iterdir():
+    if not folder_path.exists():
+        return moved_files
+
+    for file in folder_path.iterdir():
         if file.is_file():
             extension = file.suffix.lower()
-            for folder_name, extensions in FILE_TYPES.items():
+            for category, extensions in FILE_TYPES.items():
                 if extension in extensions:
-                    target = downloads_path / folder_name
+                    target = folder_path / category
                     target.mkdir(exist_ok=True)
                     shutil.move(str(file), str(target / file.name))
                     moved_files.append(file.name)
     
-    # NEW: Save the history to a 'log.txt' file
+    # Save to your lifetime log
     if moved_files:
         with open("organizer_log.txt", "a") as log:
             for name in moved_files:
@@ -53,17 +57,16 @@ def index():
 
 @app.route('/organize', methods=['POST'])
 def organize():
-    files_list = organize_downloads()
+    # 1. Get the folder choice from the HTML radio buttons
+    chosen_folder = request.form.get('folder_choice', 'Downloads')
+    
+    # 2. Run the organization on THAT specific folder
+    files_list = organize_folder(chosen_folder)
     
     if not files_list:
-        # We must re-calculate the total_count so the counter doesn't disappear!
-        try:
-            with open("organizer_log.txt", "r") as log:
-                total = len(log.readlines())
-        except FileNotFoundError:
-            total = 0
-            
-        return render_template('index.html', total_count=total, message="Your folder is already tidy!")
+        # Re-calculate total for the counter
+        total = get_total_count() # You can make a small helper function for this
+        return render_template('index.html', total_count=total, message=f"Your {chosen_folder} is already tidy!")
     
     return render_template('success.html', files=files_list)
 

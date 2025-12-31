@@ -58,13 +58,25 @@
         <p style="color: #ff3b30; font-weight: bold;">{{ message }}</p>
         {% endif %}
 
-        <form action="/organize" method="post">
-            <button type="submit">Organize My Files</button>
-            <div id="loading-spinner">
-                <div class="loader"></div>
-                <span style="color: #666; font-size: 0.9em; margin-left: 5px;">Tidying up...</span>
-            </div>
-        </form>
+       <form action="/organize" method="post" onsubmit="showLoading()">
+    
+    <div style="margin-bottom: 25px; text-align: center; background: rgba(0,0,0,0.03); padding: 15px; border-radius: 10px;">
+        <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #444;">Select Folder to Clean:</label>
+        
+        <input type="radio" id="downloads" name="folder_choice" value="Downloads" checked>
+        <label for="downloads" style="margin-right: 20px; cursor: pointer;">Downloads</label>
+        
+        <input type="radio" id="desktop" name="folder_choice" value="Desktop">
+        <label for="desktop" style="cursor: pointer;">Desktop</label>
+    </div>
+
+    <button type="submit" id="organize-btn">Organize My Files</button>
+    
+    <div id="loading-spinner">
+        <div class="loader"></div>
+        <span style="color: #666; font-size: 0.9em; margin-left: 5px;">Tidying up...</span>
+    </div>
+</form>
 
         <div class="stat-box" style="margin-top: 30px; padding: 20px; 
                     background: {% if total_count > 10 %} rgba(52,199,89, 0.15) {% else %} rgba(0, 122, 255, 0.1) {% endif %};
