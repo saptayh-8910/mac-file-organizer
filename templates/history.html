@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organization History</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; padding: 50px; background: #f5f5f7; text-align: center; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; min-width: 400px; text-align: left; }
+        h1 { color: #007aff; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px 0; border-bottom: 1px solid #eee; color: #333; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #007aff; color: white; text-decoration: none; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📜 Lifetime History</h1>
+        <p>Total files organized: <strong>{{ total_count }}</strong></p>
+        <ul>
+            {% for file in history %}
+                <li>✅ {{ file }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="back-btn">← Back to Organizer</a>
+    </div>
+</body>
+</html>

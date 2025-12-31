@@ -64,5 +64,17 @@ def organize():
     
     return render_template('success.html', files=files_list)
 
+@app.route('/history')
+def show_history():
+    history_list = []
+    try:
+        with open("organizer_log.txt", "r") as log:
+            # We reverse the list so the newest files show up at the top!
+            history_list = log.readlines()[::-1]
+    except FileNotFoundError:
+        pass
+        
+    return render_template('history.html', history=history_list, total_count=len(history_list))
+
 if __name__ == "__main__":
     app.run(debug=True)
