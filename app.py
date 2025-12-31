@@ -16,23 +16,40 @@ FILE_TYPES = {
 }
 
 def organize_downloads():
-    downloads_path = Path.home() / "Downloads" #path to downloads folder
-    moved_files = [] #list to keep track of moved files
+    downloads_path = Path.home() / "Downloads"
+    moved_files = []
     
-    for file in downloads_path.iterdir(): #iterate through files in downloads
-        if file.is_file(): #check if it's a file
-            extension = file.suffix.lower() #get file extension
-            for folder_name, extensions in FILE_TYPES.items(): #iterate through file types
-                if extension in extensions: #check if file extension matches
-                    target = downloads_path / folder_name #set target folder
-                    target.mkdir(exist_ok=True) #create folder if it doesn't exist
-                    shutil.move(str(file), str(target / file.name)) #move file
-                    moved_files.append(file.name) #add name to moved files list
+    for file in downloads_path.iterdir():
+        if file.is_file():
+            extension = file.suffix.lower()
+            for folder_name, extensions in FILE_TYPES.items():
+                if extension in extensions:
+                    target = downloads_path / folder_name
+                    target.mkdir(exist_ok=True)
+                    shutil.move(str(file), str(target / file.name))
+                    moved_files.append(file.name)
+    
+    # NEW: Save the history to a 'log.txt' file
+    if moved_files:
+        with open("organizer_log.txt", "a") as log:
+            for name in moved_files:
+                log.write(f"{name}\n")
+                
     return moved_files
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # We open our log file and count how many lines (files) are in it
+    try:
+        with open("organizer_log.txt", "r") as log:
+            # Each line in the log represents one file organized
+            total = len(log.readlines())
+    except FileNotFoundError:
+        # If the file doesn't exist yet (first time running), set total to 0
+        total = 0
+        
+    # We send that 'total' number to index.html as 'total_count'
+    return render_template('index.html', total_count=total)
 
 @app.route('/organize', methods=['POST'])
 def organize():
