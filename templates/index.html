@@ -79,12 +79,22 @@
 </form>
 
         <a href="/history" style="text-decoration: none; color: inherit; display: block;">
-    <div class="stat-box" style="...">
+    
+    <div class="stat-box" style="margin-top: 30px; padding: 25px; border-radius: 15px; 
+         background: {% if total_count > 10 %} rgba(52, 199, 89, 0.1) {% else %} rgba(0, 122, 255, 0.05) {% endif %}; 
+         border: 2px solid {% if total_count > 10 %} rgba(52, 199, 89, 0.3) {% else %} rgba(0, 122, 255, 0.2) {% endif %};">
+        
         <h3 style="margin-top: 0; color: #007aff;">📊 Lifetime Impact</h3>
+        
         <p style="font-size: 1.1em; color: #333;">
-            This tool has helped you organize <span style="...">{{ total_count }}</span> files so far!
+            This tool has helped you organize 
+            <span style="color: #007aff; font-weight: bold; font-size: 1.4em;">{{ total_count }}</span> 
+            files so far!
         </p>
-        <small style="color: #007aff; font-weight: bold;">Click to view full log →</small>
+        
+        <small style="color: #007aff; font-weight: bold; display: block; margin-top: 10px;">
+            Click to view full log →
+        </small>
     </div>
 </a>
     
