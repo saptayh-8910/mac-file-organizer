@@ -1,3 +1,6 @@
+# Mac Downloads Organizer
+![App Interface Preview](MacOrganizerApp-preview.png)
+
 # Mac File Organizer Web App
 A full-stack Python application that automatically sorts messy Downloads folders into categorized sub-folders (Images, Documents, Music, etc.).
 
