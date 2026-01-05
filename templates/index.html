@@ -3,28 +3,6 @@
 <head>
     <title>My Organizer App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
-    <style>
-        body { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            margin: 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            font-family: -apple-system, sans-serif;
-        }
-        .card { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 24px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            max-width: 500px; 
-            width: 90%; 
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -36,30 +14,35 @@
         <p style="color: #ff3b30; font-weight: bold; margin-bottom: 20px;">{{ message }}</p>
     {% endif %}
 
-    <form action="/organize" method="post" onsubmit="showLoading()">
+   <form action="/organize" method="post" onsubmit="showLoading()">
+    
+    <div class="folder-select-card">
+        <label style="font-weight: bold; color: #333; font-size: 1.1em;">Select Folder to Clean:</label>
         
-        <div class="folder-select-group">
-            <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #444;">Select Folder to Clean:</label>
-            
-            <input type="radio" id="downloads" name="folder_choice" value="Downloads" checked>
-            <label for="downloads" style="margin-right: 20px; cursor: pointer;">Downloads</label>
-            
-            <input type="radio" id="desktop" name="folder_choice" value="Desktop">
-            <label for="desktop" style="cursor: pointer;">Desktop</label>
+        <div class="radio-group">
+            <span>
+                <input type="radio" id="downloads" name="folder_choice" value="Downloads" checked>
+                <label for="downloads" style="cursor: pointer;">Downloads</label>
+            </span>
+            <span>
+                <input type="radio" id="desktop" name="folder_choice" value="Desktop">
+                <label for="desktop" style="cursor: pointer;">Desktop</label>
+            </span>
         </div>
+    </div>
 
-        <button type="submit" id="organize-btn">Organize My Files</button>
-        
-        <div id="loading-spinner">
-            <div class="loader"></div>
-            <span style="color: #666; font-size: 0.9em; margin-left: 5px;">Tidying up...</span>
-        </div>
-    </form>
+    <button type="submit" id="organize-btn">Organize My Files</button>
+    
+    <div id="loading-spinner">
+        <div class="loader"></div>
+        <span style="color: #666; font-size: 0.9em; margin-left: 5px;">Tidying up...</span>
+    </div>
+</form>
 
     <a href="/history" style="text-decoration: none; color: inherit; display: block;">
         <div class="stat-box" style="background: {% if total_count > 10 %} rgba(52, 199, 89, 0.1) {% else %} rgba(0, 122, 255, 0.05) {% endif %}; 
-             border: 2px solid {% if total_count > 10 %} rgba(52, 199, 89, 0.3) {% else %} rgba(0, 122, 255, 0.2) {% endif %};">
-            
+         border: 2px solid {% if total_count > 10 %} rgba(52, 199, 89, 0.3) {% else %} rgba(0, 122, 255, 0.2) {% endif %};">
+        
             <h3 style="margin-top: 0; color: #007aff;">📊 Lifetime Impact</h3>
             <p style="font-size: 1.1em; color: #333;">
                 This tool has helped you organize 
@@ -68,7 +51,7 @@
             </p>
             <small style="color: #007aff; font-weight: bold; display: block; margin-top: 10px;">
                 Click to view full log →
-            </small>
+                </small>
         </div>
     </a>
 </div>
