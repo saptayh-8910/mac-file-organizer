@@ -1,5 +1,2 @@
 venv/
-*.pyc
-__pycache__/
 .DS_Store
-organizer_log.txt
